@@ -5,6 +5,8 @@ pkg
 test/Pods
 test/Gemfile.lock
 
+*.gem
+
 ## Various settings
 *.pbxuser
 !default.pbxuser
