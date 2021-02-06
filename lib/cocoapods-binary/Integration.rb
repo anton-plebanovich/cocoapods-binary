@@ -69,8 +69,8 @@ module Pod
 
                     walk(real_file_folder) do |child|
                         source = child
-                        # only make symlink to file and `.framework` folder
-                        if child.directory? and [".framework", ".dSYM"].include? child.extname
+                        # Make symlink to all files and specified folders: BCSymbolMaps, `*.dSYM` ans `*.framework`.
+                        if child.directory? and (child.basename.to_s == "BCSymbolMaps" or [".framework", ".dSYM"].include? child.extname)
                             mirror_with_symlink(source, real_file_folder, target_folder)
                             next false  # return false means don't go deeper
                         elsif child.file?
@@ -165,10 +165,18 @@ module Pod
                 if spec.attributes_hash[platform] == nil
                     spec.attributes_hash[platform] = {}
                 end
+                
                 vendored_frameworks = spec.attributes_hash[platform]["vendored_frameworks"] || []
                 vendored_frameworks = [vendored_frameworks] if vendored_frameworks.kind_of?(String)
                 vendored_frameworks += [added_framework_file_path]
                 spec.attributes_hash[platform]["vendored_frameworks"] = vendored_frameworks
+
+                preserve_paths = spec.attributes_hash[platform]["preserve_paths"] || []
+                preserve_paths = [preserve_paths] if preserve_paths.kind_of?(String)
+                preserve_paths += ["**/*.bcsymbolmap"]
+                spec.attributes_hash[platform]["preserve_paths"] = preserve_paths
+                
+                puts "*** spec: #{spec.attributes_hash[platform]}"
             end
             def empty_source_files(spec)
                 spec.attributes_hash["source_files"] = []
@@ -242,7 +250,6 @@ module Pod
             @installed_specs.concat(pod_installer.specs_by_platform.values.flatten.uniq)
             # \copy from original
         end
-
 
     end
 end
