@@ -89,7 +89,7 @@ def build_for_iosish_platform(sandbox,
 }
     File.write(device_generated_swift_header_path, combined_header_content.strip)
   end
-  
+
   # Preserve bcsymbolmap files
   bcsymbolmap_output_path = "#{output_path}/"
   FileUtils.mkdir_p(bcsymbolmap_output_path) unless File.exists?(bcsymbolmap_output_path)
