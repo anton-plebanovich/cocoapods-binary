@@ -91,7 +91,6 @@ def build_for_iosish_platform(sandbox,
   end
   
   # Preserve bcsymbolmap files
-  puts "*** Copying BCSymbolMaps"
   bcsymbolmap_output_path = "#{output_path}/"
   FileUtils.mkdir_p(bcsymbolmap_output_path) unless File.exists?(bcsymbolmap_output_path)
   FileUtils.mv Dir.glob("#{device_results_path}/*.bcsymbolmap"), "#{bcsymbolmap_output_path}/", :force => true

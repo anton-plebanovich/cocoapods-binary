@@ -175,8 +175,6 @@ module Pod
                 preserve_paths = [preserve_paths] if preserve_paths.kind_of?(String)
                 preserve_paths += ["**/*.bcsymbolmap"]
                 spec.attributes_hash[platform]["preserve_paths"] = preserve_paths
-                
-                puts "*** spec: #{spec.attributes_hash[platform]}"
             end
             def empty_source_files(spec)
                 spec.attributes_hash["source_files"] = []
